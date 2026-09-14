@@ -5,6 +5,7 @@
 
 import os
 import sys
+import math
 
 from configs.configure import Configure
 from ngram.ngram_creator import NGramCreator
@@ -20,6 +21,7 @@ def load_model(password_length, config):
         "ngram_size": config.NGRAM_SIZE,
         "training_file": "input/" + config.TRAINING_FILE,
         "encoding": config.ENCODING,
+        "encoding_errors": config.ENCODING_ERRORS,
         "length": password_length,
         "progress_bar": False
     })
@@ -59,6 +61,12 @@ def evaluate_password(password, model):
     return probability
 
 
+def probability_to_entropy(probability):
+    if probability <= 0.0:
+        raise ValueError("Probability must be greater than zero.")
+    return -math.log2(probability)
+
+
 def main():
     password = "?p5r6j"
     if not password:
@@ -87,12 +95,14 @@ def main():
     try:
         model = load_model(len(password), config)
         probability = evaluate_password(password, model)
+        entropy = probability_to_entropy(probability)
     except (FileNotFoundError, ValueError, KeyError) as error:
         print(error, file=sys.stderr)
         return 1
 
     print("Password length: {}".format(len(password)))
     print("Probability: {:.16e}".format(probability))
+    print("Self-information: {:.4f} bits".format(entropy))
 
 if __name__ == "__main__":
     sys.exit(main())
