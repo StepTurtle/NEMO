@@ -3,6 +3,6 @@ __pycache__/
 *.py[cod]
 *$py.class
 trained/*.pack
-input/*.txt
-input/*.7z
+input/**/*.txt
+input/**/*.7z
 results/eval_result.txt
