@@ -1,0 +1,15 @@
+{
+    "name": "Turkish",
+    "eval_file": "tr/eval.txt",
+    "training_file": "tr/training.txt",
+    "encoding": "utf-8",
+    "alphabet": "0123456789 abcdefghijklmnopqrstuvwxyzçğıöşüâABCDEFGHIJKLMNOPQRSTUVWXYZÇĞİÖŞÜ.,-_",
+    "lengths": [
+        4,
+        6,
+        8
+    ],
+    "ngram_size": 3,
+    "no_cpus": 4,
+    "progress_bar": true
+}
