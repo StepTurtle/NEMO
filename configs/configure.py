@@ -8,7 +8,7 @@
 '''
 
 # Load external modules
-import sys, logging, json, datetime
+import sys, logging, json, datetime, os
 from threading import Thread
 
 # Load own modules
@@ -33,12 +33,14 @@ class Configure:
 
     def _read_config(self):
         try:
-            with open('./configs/dev.json', 'r') as configfile:
+            config_path = os.environ.get('NEMO_CONFIG', './configs/dev.json')
+            with open(config_path, 'r', encoding='utf-8') as configfile:
                 config = json.load(configfile)
                 # Those DEFAULTS are used, if the config file is malformed
                 self.NAME = config.get("name", "Demo")
                 self.EVAL_FILE = config.get("eval_file", "eval.txt")
                 self.TRAINING_FILE = config.get("training_file", "training.txt")
+                self.ENCODING = config.get("encoding", "utf-8")
                 self.ALPHABET = config.get("alphabet", "abcdefghijklmnopqrstuvwxyz")
                 self.LENGTHS = config.get("lengths", [6,8])
                 self.NGRAM_SIZE = config.get("ngram_size", 3)

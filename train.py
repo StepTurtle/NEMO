@@ -22,6 +22,7 @@ def worker(data):
         "alphabet": config.ALPHABET,
         "ngram_size": config.NGRAM_SIZE,
         "training_file": "input/"+config.TRAINING_FILE,
+        "encoding": config.ENCODING,
         "length": length,
         "progress_bar": progress_bar
     })

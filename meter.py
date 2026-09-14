@@ -17,6 +17,7 @@ def worker(length):
         "alphabet": CONFIG.ALPHABET,
         "ngram_size": CONFIG.NGRAM_SIZE,
         "training_file": "input/"+CONFIG.TRAINING_FILE,
+        "encoding": CONFIG.ENCODING,
         "length": length,
         "progress_bar": CONFIG.PROGRESS_BAR
     })
@@ -54,8 +55,9 @@ def eval():
 
     logging.debug("Training loaded from disk ...")
     logging.debug("Number of Markov models: "+str(len(MARKOV_MODELS)))
-    fo = open("results/"+CONFIG.EVAL_FILE.rstrip('.txt')+"_result.txt", "w")
-    with open("input/"+CONFIG.EVAL_FILE, 'r') as inputfile:
+    eval_name = os.path.splitext(os.path.basename(CONFIG.EVAL_FILE))[0]
+    fo = open("results/"+eval_name+"_result.txt", "w", encoding='utf-8')
+    with open("input/"+CONFIG.EVAL_FILE, 'r', encoding=CONFIG.ENCODING) as inputfile:
         for line in inputfile:
             line = line.rstrip('\r\n')
              # Determine correct model

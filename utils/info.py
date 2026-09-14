@@ -22,7 +22,7 @@ def main():
     lengths = set()
     everything_ascii = "Yes"
 
-    with open(sys.argv[1], 'r') as passwordfile:
+    with open(sys.argv[1], 'r', encoding='utf-8') as passwordfile:
         for line in passwordfile:
             line = line.rstrip('\r\n')
             length = len(line)

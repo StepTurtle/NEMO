@@ -37,7 +37,8 @@ class NGramCreator:
         assert self.ngram_size >= 2, "n-gram size < 2 does not make any sense! Your configured n-gram size is {}".format(self.ngram_size)
         logging.debug("NGram size: {}".format(self.ngram_size))
         self.training_file = dict['training_file']
-        self.training_file_lines = sum(1 for line in open(self.training_file, encoding='latin-1'))
+        self.encoding = dict.get('encoding', 'utf-8')
+        self.training_file_lines = sum(1 for line in open(self.training_file, encoding=self.encoding))
         self.disable_progress = False if dict['progress_bar'] else True
         self.ip_list = []
         self.cp_list = []
@@ -63,7 +64,6 @@ class NGramCreator:
                 return False
         return True
 
-    # checks whether two floats are equal like 1.0 == 1.0?
     def _is_almost_equal(self, a, b, rel_tol=1e-09, abs_tol=0.0):
         #print '{0:.16f}'.format(a), '{0:.16f}'.format(b)
         return abs(a-b) <= max(rel_tol * max(abs(a), abs(b)), abs_tol)
@@ -81,7 +81,6 @@ class NGramCreator:
             return ( self.alphabet_len**0 * self.alphabet_dict[ngram[1]] ) + ( self.alphabet_len**1 * self.alphabet_dict[ngram[0]] )
         if self.ngram_size == 2:
             return ( self.alphabet_len**0 * self.alphabet_dict[ngram[0]] )
-
     # intial-prob-index-to-ngram
     def _i2nIP(self, index):
         if self.ngram_size == 5:
@@ -98,7 +97,6 @@ class NGramCreator:
             return self.alphabet_list[first] + self.alphabet_list[second]
         if self.ngram_size == 2:
             return self.alphabet_list[index]
-
     # ngram-to-conditial-prob-index
     def _n2iCP(self, ngram):
         ngram = list(ngram)
@@ -164,7 +162,7 @@ class NGramCreator:
     '''
     def _count(self, kind):
         if kind == "ip_list":
-            with open(self.training_file, encoding='latin-1') as input_file:
+            with open(self.training_file, encoding=self.encoding) as input_file:
                 for line in tqdm(input_file, desc=self.training_file, total=self.training_file_lines, disable=self.disable_progress, miniters=1000, unit="pw"):
                     line = line.rstrip('\r\n')
                     if len(line) != self.length: # Important to prevent generating "passwor", or "iloveyo", or "babygir"
@@ -173,7 +171,7 @@ class NGramCreator:
                         ngram = line[0:self.ngram_size-1] # Get IP ngram
                         self.ip_list[self._n2iIP(ngram)] = self.ip_list[self._n2iIP(ngram)] + 1 # Increase IP ngram count by 1
         elif kind == "cp_list":
-            with open(self.training_file, encoding='latin-1') as input_file: # Open trainingfile
+            with open(self.training_file, encoding=self.encoding) as input_file: # Open trainingfile
                 for line in tqdm(input_file, desc=self.training_file, total=self.training_file_lines, disable=self.disable_progress, miniters=1000, unit="pw"):
                     line = line.rstrip('\r\n')
                     if len(line) != self.length: # Important to prevent generating "passwor", or "iloveyo", or "babygir"
@@ -185,7 +183,7 @@ class NGramCreator:
                             old_pos += 1
                             self.cp_list[self._n2iCP(ngram)] = self.cp_list[self._n2iCP(ngram)] + 1 # Increase CP ngram count by 1
         elif kind == "ep_list":
-            with open(self.training_file, encoding='latin-1') as input_file: # Open trainingfile
+            with open(self.training_file, encoding=self.encoding) as input_file: # Open trainingfile
                 for line in tqdm(input_file, desc=self.training_file, total=self.training_file_lines, disable=self.disable_progress, miniters=1000, unit="pw"):
                     line = line.rstrip('\r\n')
                     if len(line) != self.length: # Important to prevent generating "passwor", or "iloveyo", or "babygir"

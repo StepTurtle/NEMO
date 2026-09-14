@@ -19,6 +19,7 @@ def load_model(password_length, config):
         "alphabet": config.ALPHABET,
         "ngram_size": config.NGRAM_SIZE,
         "training_file": "input/" + config.TRAINING_FILE,
+        "encoding": config.ENCODING,
         "length": password_length,
         "progress_bar": False
     })
