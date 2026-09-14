@@ -15,12 +15,13 @@ def worker(data):
     "This data was received by the process:"
     length = data[0]
     progress_bar = data[1]
+    config = data[2]
 
     ngram_creator = NGramCreator({
-        "name": ("NGramCreator, Session: {}, Length: {}, Progress bar: {}".format(CONFIG.NAME, length, progress_bar)),
-        "alphabet": CONFIG.ALPHABET,
-        "ngram_size": CONFIG.NGRAM_SIZE,
-        "training_file": "input/"+CONFIG.TRAINING_FILE,
+        "name": ("NGramCreator, Session: {}, Length: {}, Progress bar: {}".format(config.NAME, length, progress_bar)),
+        "alphabet": config.ALPHABET,
+        "ngram_size": config.NGRAM_SIZE,
+        "training_file": "input/"+config.TRAINING_FILE,
         "length": length,
         "progress_bar": progress_bar
     })
@@ -74,6 +75,7 @@ def worker(data):
 def train():
     try:
         logging.debug("Training started ...")
+        config = CONFIG
 
         ''' Singleprocessing
         for length in CONFIG.LENGTHS:
@@ -83,9 +85,9 @@ def train():
 
         #''' Multiprocessing
         data = []
-        for length in CONFIG.LENGTHS:
-            data.append([length, CONFIG.PROGRESS_BAR])
-        pool = multiprocessing.Pool(processes=CONFIG.NO_CPUS)
+        for length in config.LENGTHS:
+            data.append([length, config.PROGRESS_BAR, config])
+        pool = multiprocessing.Pool(processes=config.NO_CPUS)
         pool.map(worker, data)
         pool.close() # no more tasks can be submitted to the pool
         pool.join() # wait for the worker processes to exit
