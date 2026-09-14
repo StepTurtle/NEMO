@@ -6,6 +6,7 @@
 import os
 import sys
 import math
+import time
 
 from configs.configure import Configure
 from ngram.ngram_creator import NGramCreator
@@ -99,6 +100,8 @@ def main():
     except (FileNotFoundError, ValueError, KeyError) as error:
         print(error, file=sys.stderr)
         return 1
+
+    time.sleep(0.1)
 
     print("Password length: {}".format(len(password)))
     print("Probability: {:.16e}".format(probability))
