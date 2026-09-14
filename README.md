@@ -249,6 +249,14 @@ Here is the default content of `dev.json`, feel free to edit the file as you lik
 
 Please note: You can use the `info.py` script in the `utils` folder to learn the alphabet of your training / evaluation file.
 
+The active configuration defaults to `configs/dev.json`. To use another configuration, set `NEMO_CONFIG` before running the scripts. For the included Turkish inputs:
+
+`$env:NEMO_CONFIG="./configs/turkish.json"`
+
+The Turkish configuration reads UTF-8 input, includes Turkish characters, and uses model lengths from 3 to 23. Entries shorter than three characters are skipped because the configured 3-gram model cannot score them.
+
+Each configuration can set its input text encoding with the `encoding` field. If it is omitted, the software uses `utf-8`.
+
 For example run:
 
 `(nemo-venv) $ pypy utils/info.py input/eval.txt`

@@ -41,6 +41,7 @@ class Configure:
                 self.EVAL_FILE = config.get("eval_file", "eval.txt")
                 self.TRAINING_FILE = config.get("training_file", "training.txt")
                 self.ENCODING = config.get("encoding", "utf-8")
+                self.ENCODING_ERRORS = config.get("encoding_errors", "strict")
                 self.ALPHABET = config.get("alphabet", "abcdefghijklmnopqrstuvwxyz")
                 self.LENGTHS = config.get("lengths", [6,8])
                 self.NGRAM_SIZE = config.get("ngram_size", 3)

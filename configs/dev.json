@@ -3,6 +3,7 @@
     "eval_file": "eval.txt",
     "training_file": "training.txt",
     "encoding": "utf-8",
+    "encoding_errors": "replace",
     "alphabet": "aeio1nrlst20mcuydh93bkgp84576vjfwzxAEqORLNISMTBYCP!.UGHDJ F-K*#V_\\XZW';Q],@&?~+$={^/%",
     "lengths": [
         4,

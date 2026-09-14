@@ -23,6 +23,7 @@ def worker(data):
         "ngram_size": config.NGRAM_SIZE,
         "training_file": "input/"+config.TRAINING_FILE,
         "encoding": config.ENCODING,
+        "encoding_errors": config.ENCODING_ERRORS,
         "length": length,
         "progress_bar": progress_bar
     })

@@ -38,7 +38,8 @@ class NGramCreator:
         logging.debug("NGram size: {}".format(self.ngram_size))
         self.training_file = dict['training_file']
         self.encoding = dict.get('encoding', 'utf-8')
-        self.training_file_lines = sum(1 for line in open(self.training_file, encoding=self.encoding))
+        self.encoding_errors = dict.get('encoding_errors', 'strict')
+        self.training_file_lines = sum(1 for line in open(self.training_file, encoding=self.encoding, errors=self.encoding_errors))
         self.disable_progress = False if dict['progress_bar'] else True
         self.ip_list = []
         self.cp_list = []
@@ -162,7 +163,7 @@ class NGramCreator:
     '''
     def _count(self, kind):
         if kind == "ip_list":
-            with open(self.training_file, encoding=self.encoding) as input_file:
+            with open(self.training_file, encoding=self.encoding, errors=self.encoding_errors) as input_file:
                 for line in tqdm(input_file, desc=self.training_file, total=self.training_file_lines, disable=self.disable_progress, miniters=1000, unit="pw"):
                     line = line.rstrip('\r\n')
                     if len(line) != self.length: # Important to prevent generating "passwor", or "iloveyo", or "babygir"
@@ -171,7 +172,7 @@ class NGramCreator:
                         ngram = line[0:self.ngram_size-1] # Get IP ngram
                         self.ip_list[self._n2iIP(ngram)] = self.ip_list[self._n2iIP(ngram)] + 1 # Increase IP ngram count by 1
         elif kind == "cp_list":
-            with open(self.training_file, encoding=self.encoding) as input_file: # Open trainingfile
+            with open(self.training_file, encoding=self.encoding, errors=self.encoding_errors) as input_file: # Open trainingfile
                 for line in tqdm(input_file, desc=self.training_file, total=self.training_file_lines, disable=self.disable_progress, miniters=1000, unit="pw"):
                     line = line.rstrip('\r\n')
                     if len(line) != self.length: # Important to prevent generating "passwor", or "iloveyo", or "babygir"
@@ -183,7 +184,7 @@ class NGramCreator:
                             old_pos += 1
                             self.cp_list[self._n2iCP(ngram)] = self.cp_list[self._n2iCP(ngram)] + 1 # Increase CP ngram count by 1
         elif kind == "ep_list":
-            with open(self.training_file, encoding=self.encoding) as input_file: # Open trainingfile
+            with open(self.training_file, encoding=self.encoding, errors=self.encoding_errors) as input_file: # Open trainingfile
                 for line in tqdm(input_file, desc=self.training_file, total=self.training_file_lines, disable=self.disable_progress, miniters=1000, unit="pw"):
                     line = line.rstrip('\r\n')
                     if len(line) != self.length: # Important to prevent generating "passwor", or "iloveyo", or "babygir"
